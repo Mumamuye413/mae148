@@ -40,11 +40,15 @@ class image_functions():
         estm_boxes = bin_detector.get_bounding_boxes(mask_img)
         
         if len(estm_boxes)>0:
-            return True
-        
-            # draw estm boxes
+            
             for good_box in estm_boxes:
-              cv2.rectangle(frame_bin, (good_box[0], good_box[1]), (good_box[2], good_box[3]), (0,255,0), 2)        
+            # get box size
+                box_height = abs(good_box[3]-good_box[1])
+                box_width = abs(good_box[2]-good_box[0])
+                if max(box_height, box_width)>100:
+                    return True
+            # draw estm boxes
+                cv2.rectangle(frame_bin, (good_box[0], good_box[1]), (good_box[2], good_box[3]), (0,255,0), 2)        
 
     def getSteeringAndThrottleFromImage(self):
 
